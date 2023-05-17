@@ -13,6 +13,16 @@ namespace PokemonReviewApp.Repository
             _context = context;
         }
 
+        public bool CreateReviewer(Reviewer reviewer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteReviewer(Reviewer reviewer)
+        {
+            throw new NotImplementedException();
+        }
+
         public ICollection<Review> GetReviewByReviewer(int reviewerId)
         {
             return _context.Reviews.Where(r => r.Reviewer.Id == reviewerId).ToList();
@@ -31,6 +41,16 @@ namespace PokemonReviewApp.Repository
         public ICollection<Reviewer> GetReviewers()
         {
             return _context.Reviewers.ToList();
+        }
+
+        public bool Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateReviewer(Reviewer reviewer)
+        {
+            throw new NotImplementedException();
         }
     }
 }
