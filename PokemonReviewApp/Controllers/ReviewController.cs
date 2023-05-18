@@ -67,12 +67,12 @@ namespace PokemonReviewApp.Controllers
         [HttpPost]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
-        public IActionResult CreateReview([FromQuery] int reviewerId, [FromQuery] int pokeId, [FromBody] ReviewDto createReview)
+        public IActionResult CreateReview([FromQuery] int reviewerId, [FromQuery] int pokeId, [FromBody] ReviewDto reviewCreate)
         {
-            if (createReview == null)
+            if (reviewCreate == null)
                 return BadRequest(ModelState);
 
-            var reviews = _reviewRepository.GetReviews().Where(r => r.Title.Trim().ToUpper() == createReview.Text.Trim().ToUpper()).FirstOrDefault();
+            var reviews = _reviewRepository.GetReviews().Where(r => r.Title.Trim().ToUpper() == reviewCreate.Text.Trim().ToUpper()).FirstOrDefault();
 
             if (reviews != null)
             {
@@ -83,7 +83,7 @@ namespace PokemonReviewApp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var reviewMap = _mapper.Map<Review>(createReview);
+            var reviewMap = _mapper.Map<Review>(reviewCreate);
 
             reviewMap.Pokemon = _pokemonRepository.GetPokemon(pokeId);
 
@@ -102,12 +102,12 @@ namespace PokemonReviewApp.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateReview(int reviewId, [FromBody] ReviewDto updateReview)
+        public IActionResult UpdateReview(int reviewId, [FromBody] ReviewDto reviewUpdate)
         {
             if (reviewId == null)
                 return BadRequest(ModelState);
 
-            if (reviewId != updateReview.Id)
+            if (reviewId != reviewUpdate.Id)
                 return BadRequest(ModelState);
 
             if (!_reviewRepository.ReviewExists(reviewId))
@@ -116,7 +116,7 @@ namespace PokemonReviewApp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var reviewMap = _mapper.Map<Review>(updateReview);
+            var reviewMap = _mapper.Map<Review>(reviewUpdate);
 
             if (!_reviewRepository.UpdateReview(reviewMap))
             {
